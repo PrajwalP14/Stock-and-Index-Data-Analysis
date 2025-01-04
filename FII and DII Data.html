@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FII & DII Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+      /* Styling the table */
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: #e0f7fa; /* Light blue background for better readability */
+      }
+      th, td {
+          border: 1px solid #333; /* Adds visible borders */
+          padding: 8px;
+          text-align: center;
+      }
+      th {
+          background-color: #00796b; /* Header background */
+          color: white; /* White text for contrast */
+      }
+      tr:nth-child(even) {
+          background-color: #f1f8e9; /* Alternate row color */
+      }
+      a.button {
+          display: inline-block;
+          padding: 10px 15px;
+          margin: 5px;
+          color: #fff;
+          background-color: #007BFF; /* Button color */
+          border: none;
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+      a.button:hover {
+          background-color: #0056b3;
+      }
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #00BFFF; /* Matches your theme */
+      } nav {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          background-color: rgba(255, 255, 255, 0.8);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Button Styles */
+      nav a {
+          text-decoration: none;
+          color: #fff;
+          background-color: #007BFF;
+          padding: 12px 20px;
+          margin: 0 10px;
+          border-radius: 25px;
+          transition: background-color 0.3s, transform 0.2s;
+          font-size: 16px;
+          font-weight: bold;
+      }
+
+      /* Button Hover Effect */
+      nav a:hover {
+          background-color: #0056b3;
+          transform: scale(1.1);
+      }
+
+      /* Widget Container */
+      .tradingview-widget-container {
+    margin: 20px auto;
+    padding: 20px;
+    width: 100%;  /* Change: Make the widget full-width */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-x: scroll;  /* Enable horizontal scrolling */
+    white-space: nowrap;  /* Prevent the content from wrapping to the next line */
+}
+
+
+      /* Center the Widget */
+      .tradingview-widget-container.center {
+          text-align: center;
+      }
+
+      /* Copyright Link Styling */
+      .tradingview-widget-copyright a {
+          color: #007BFF;
+          font-weight: bold;
+          text-decoration: none;
+      }
+
+      .tradingview-widget-copyright a:hover {
+          text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          nav {
+              flex-direction: column;
+          }
+
+          nav a {
+              margin: 10px 0;
+          }
+
+          .tradingview-widget-container {
+              width: 90%;
+          }
+      }
+  </style>
+</head>
+<body>  
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Delivery Data.html">Delivery Data</a>
+    <a href="FII and DII Data.html">FII & DII Data</a>
+    <a href="Heatmap.html">Heatmap</a>
+  </nav>
+  
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright">
+      <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+        <span class="blue-text">Track all markets</span>
+      </a>
+    </div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500 Index" },
+          { "proName": "FOREXCOM:NSXUSD", "title": "US 100 Cash CFD" },
+          { "proName": "FX_IDC:EURUSD", "title": "EUR to USD" },
+          { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+          { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+          { "description": "Tesla", "proName": "NASDAQ:TSLA" },
+          { "description": "Nvidia", "proName": "NASDAQ:NVDA" },
+          { "description": "Amazon", "proName": "NASDAQ:AMZN" },
+          { "description": "USD/INR", "proName": "FX_IDC:USDINR" }
+        ],
+        "showSymbolLogo": true,
+        "isTransparent": false,
+        "displayMode": "adaptive",
+        "colorTheme": "light",
+        "locale": "en"
+      }
+
+      
+    </script>
+  </div>
+
+  <table>
+    <tr>
+        <th>Client Type</th>
+        <th>Future Index Long</th>
+        <th>Future Index Short</th>
+        <th>Future Stock Long</th>
+        <th>Future Stock Short</th>
+        <th>Option Index Call Long</th>
+        <th>Option Index Put Long</th>
+        <th>Option Index Call Short</th>
+        <th>Option Index Put Short</th>
+        <th>Option Stock Call Long</th>
+        <th>Option Stock Put Long</th>
+        <th>Option Stock Call Short</th>
+        <th>Option Stock Put Short</th>
+        <th>Total Long Contracts</th>
+        <th>Total Short Contracts</th>
+    </tr>
+    <tr>
+        <td>Client</td>
+        <td>422750</td>
+        <td>254504</td>
+        <td>2737370</td>
+        <td>338566</td>
+        <td>10821694</td>
+        <td>6312599</td>
+        <td>10451061</td>
+        <td>7112397</td>
+        <td>2667513</td>
+        <td>939931</td>
+        <td>1256002</td>
+        <td>1004624</td>
+        <td>23901857</td>
+        <td>20417154</td>
+    </tr>
+    <tr>
+        <td>DII</td>
+        <td>145199</td>
+        <td>153758</td>
+        <td>164739</td>
+        <td>3948755</td>
+        <td>500</td>
+        <td>236310</td>
+        <td>0</td>
+        <td>0</td>
+        <td>219</td>
+        <td>0</td>
+        <td>315760</td>
+        <td>0</td>
+        <td>546967</td>
+        <td>4418273</td>
+    </tr>
+    <tr>
+        <td>FII</td>
+        <td>119667</td>
+        <td>210765</td>
+        <td>2943712</td>
+        <td>2056697</td>
+        <td>3186744</td>
+        <td>2158102</td>
+        <td>3062468</td>
+        <td>1620141</td>
+        <td>207733</td>
+        <td>226464</td>
+        <td>602172</td>
+        <td>425877</td>
+        <td>8842422</td>
+        <td>7978120</td>
+    </tr>
+    <tr>
+        <td>Pro</td>
+        <td>56110</td>
+        <td>124699</td>
+        <td>870794</td>
+        <td>372597</td>
+        <td>3561132</td>
+        <td>2803272</td>
+        <td>4056541</td>
+        <td>2777745</td>
+        <td>828398</td>
+        <td>995210</td>
+        <td>1529929</td>
+        <td>731104</td>
+        <td>9114916</td>
+        <td>9592615</td>
+    </tr>
+    <tr>
+        <td>TOTAL</td>
+        <td>743726</td>
+        <td>743726</td>
+        <td>6716615</td>
+        <td>6716615</td>
+        <td>17570070</td>
+        <td>11510283</td>
+        <td>17570070</td>
+        <td>11510283</td>
+        <td>3703863</td>
+        <td>2161605</td>
+        <td>3703863</td>
+        <td>2161605</td>
+        <td>42406162</td>
+        <td>42406162</td>
+    </tr>
+  </table>
+</body>
+</html>

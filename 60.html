@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradient background */
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling on body */
+        }
+
+        /* Center Alignment for Links */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Styles */
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF; /* Button color */
+            padding: 12px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Button Hover Effect */
+        nav a:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Ticker Section Styling */
+        .ticker-container {
+            margin: 20px auto;
+            padding: 10px;
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Prevents text from overflowing */
+            background-color: #333;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            color: white;
+            font-size: 18px;
+            animation: scroll 15s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Styling the Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #e0f7fa; /* Light blue background for better readability */
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #333; /* Adds visible borders */
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00796b; /* Header background */
+            color: white; /* White text for contrast */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f1f8e9; /* Alternate row color */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                margin: 10px 0;
+            }
+
+            .ticker-container {
+                font-size: 16px; /* Smaller font size for smaller screens */
+            }
+
+            .tradingview-widget-container {
+                width: 90%; /* Adjust widget width for smaller screens */
+            }
+
+            table {
+                font-size: 14px; /* Adjust font size for better readability */
+            }
+        }
+       a,button{
+        size: 10cap;
+        padding-left: 10px;
+       }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Delivery Data.html">Delivery Data</a>
+        <a href="FII and DII Data.html">FII & DII Data</a>
+        <a href="Heatmap.html">Heatmap</a>
+    </nav>
+
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+                <span class="blue-text"></span>
+            </a>
+        </div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+            "symbols": [
+                { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500 Index" },
+                { "proName": "FOREXCOM:NSXUSD", "title": "US 100 Cash CFD" },
+                { "proName": "FX_IDC:EURUSD", "title": "EUR to USD" },
+                { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+                { "description": "Tesla", "proName": "NASDAQ:TSLA" },
+                { "description": "HDFCBAnk", "proName": "NASDAQ:TSLA" },
+                { "description": "Nvidia", "proName": "NASDAQ:NVDA" },
+                { "description": "Amazon", "proName": "NASDAQ:AMZN" },
+                { "description": "Vix", "proName": "TVC:VIX" },
+                { "description": "USD/INR", "proName": "FX_IDC:USDINR" }
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "colorTheme": "light",
+            "locale": "en"
+        }
+        </script>
+    </div>
+    <a href="Delivery Data.html"><button>BACK to Delivery Data</button> </a>
+<table>
+    <tr>
+        <th>SYMBOL</th>
+        <th> PREV_CLOSE</th>
+        <th> OPEN_PRICE</th>
+        <th> HIGH_PRICE</th>
+        <th> LOW_PRICE</th>
+        <th> LAST_PRICE</th>
+        <th> CLOSE_PRICE</th>
+        <th> DELIV_QTY</th>
+        <th> DELIV %</th>
+    </tr>
+        <tr>
+            <td>AXISBANK</td>
+            <td>1150.9</td>
+            <td>1145.25</td>
+            <td>1151.85</td>
+            <td>1130</td>
+            <td>1134.8</td>
+            <td>1136.25</td>
+            <td>4484564</td>
+            <td>61.49</td>
+        </tr>
+        <tr>
+            <td>BAJAJ-AUTO</td>
+            <td>8998.35</td>
+            <td>8989.8</td>
+            <td>8990</td>
+            <td>8851.4</td>
+            <td>8864</td>
+            <td>8895</td>
+            <td>304193</td>
+            <td>66.64</td>
+        </tr>
+        <tr>
+            <td>DIVISLAB</td>
+            <td>5856.45</td>
+            <td>5868</td>
+            <td>5935</td>
+            <td>5819.55</td>
+            <td>5846.9</td>
+            <td>5847.4</td>
+            <td>238300</td>
+            <td>60.54</td>
+        </tr>
+        <tr>
+            <td>DMART</td>
+            <td>3623.8</td>
+            <td>3627.05</td>
+            <td>3629.95</td>
+            <td>3519</td>
+            <td>3532.95</td>
+            <td>3542.95</td>
+            <td>596460</td>
+            <td>60.34</td>
+        </tr>
+        <tr>
+            <td>EICHERMOT</td>
+            <td>4838.5</td>
+            <td>4808.1</td>
+            <td>4830</td>
+            <td>4726.95</td>
+            <td>4730</td>
+            <td>4742.65</td>
+            <td>242960</td>
+            <td>60.4</td>
+        </tr>
+        <tr>
+            <td>GODREJCP</td>
+            <td>1112.35</td>
+            <td>1112.65</td>
+            <td>1115.25</td>
+            <td>1085</td>
+            <td>1090.8</td>
+            <td>1089.3</td>
+            <td>1136429</td>
+            <td>62.11</td>
+        </tr>
+        <tr>
+            <td>HCLTECH</td>
+            <td>1954.4</td>
+            <td>1945.3</td>
+            <td>1963.2</td>
+            <td>1938</td>
+            <td>1948.05</td>
+            <td>1950.6</td>
+            <td>1252469</td>
+            <td>63</td>
+        </tr>
+        <tr>
+            <td>HDFCLIFE</td>
+            <td>634.95</td>
+            <td>634.95</td>
+            <td>636.35</td>
+            <td>625.6</td>
+            <td>628.1</td>
+            <td>626.75</td>
+            <td>2225030</td>
+            <td>69.99</td>
+        </tr>
+        <tr>
+            <td>HEROMOTOCO</td>
+            <td>4539</td>
+            <td>4513.3</td>
+            <td>4558.55</td>
+            <td>4395.6</td>
+            <td>4402.45</td>
+            <td>4415.1</td>
+            <td>482233</td>
+            <td>61.91</td>
+        </tr>
+        <tr>
+            <td>HINDUNILVR</td>
+            <td>2366.15</td>
+            <td>2353.35</td>
+            <td>2380</td>
+            <td>2353.35</td>
+            <td>2364</td>
+            <td>2363.25</td>
+            <td>1433390</td>
+            <td>67.25</td>
+        </tr>
+        <tr>
+            <td>ICICIBANK</td>
+            <td>1346.1</td>
+            <td>1342</td>
+            <td>1348.1</td>
+            <td>1326.05</td>
+            <td>1334</td>
+            <td>1333.75</td>
+            <td>5938122</td>
+            <td>60.11</td>
+        </tr>
+        <tr>
+            <td>INDIGO</td>
+            <td>4406.75</td>
+            <td>4410.45</td>
+            <td>4444.15</td>
+            <td>4370</td>
+            <td>4376.05</td>
+            <td>4386.8</td>
+            <td>432627</td>
+            <td>70.19</td>
+        </tr>
+        <tr>
+            <td>JIOFIN</td>
+            <td>340.35</td>
+            <td>339.05</td>
+            <td>340.9</td>
+            <td>335.9</td>
+            <td>336.75</td>
+            <td>337.1</td>
+            <td>4905676</td>
+            <td>61.11</td>
+        </tr>
+        <tr>
+            <td>KOTAKBANK</td>
+            <td>1804.45</td>
+            <td>1796.1</td>
+            <td>1806.85</td>
+            <td>1775</td>
+            <td>1781</td>
+            <td>1784.05</td>
+            <td>2555416</td>
+            <td>71.12</td>
+        </tr>
+        <tr>
+            <td>LT</td>
+            <td>3877.85</td>
+            <td>3863.05</td>
+            <td>3875.4</td>
+            <td>3797</td>
+            <td>3802.95</td>
+            <td>3807.2</td>
+            <td>1127973</td>
+            <td>66.74</td>
+        </tr>
+        <tr>
+            <td>LTIM</td>
+            <td>6738.45</td>
+            <td>6738.45</td>
+            <td>6759.9</td>
+            <td>6650.3</td>
+            <td>6672</td>
+            <td>6696.95</td>
+            <td>141359</td>
+            <td>61.83</td>
+        </tr>
+        <tr>
+            <td>NESTLEIND</td>
+            <td>2238.75</td>
+            <td>2226</td>
+            <td>2233.95</td>
+            <td>2200</td>
+            <td>2205</td>
+            <td>2202.95</td>
+            <td>1060504</td>
+            <td>70.75</td>
+        </tr>
+        <tr>
+            <td>NTPC</td>
+            <td>352.9</td>
+            <td>352</td>
+            <td>353.85</td>
+            <td>347.25</td>
+            <td>349.4</td>
+            <td>349.05</td>
+            <td>10477201</td>
+            <td>66.96</td>
+        </tr>
+        <tr>
+            <td>POWERGRID</td>
+            <td>335</td>
+            <td>332.5</td>
+            <td>335.55</td>
+            <td>328</td>
+            <td>330.1</td>
+            <td>329.8</td>
+            <td>11598553</td>
+            <td>66.81</td>
+        </tr>
+        <tr>
+            <td>RELIANCE</td>
+            <td>1268.3</td>
+            <td>1261.05</td>
+            <td>1263.9</td>
+            <td>1242.8</td>
+            <td>1244.7</td>
+            <td>1245.3</td>
+            <td>11118567</td>
+            <td>63.67</td>
+        </tr>
+        <tr>
+            <td>SBILIFE</td>
+            <td>1421.65</td>
+            <td>1421.7</td>
+            <td>1425</td>
+            <td>1405.6</td>
+            <td>1412.05</td>
+            <td>1409.7</td>
+            <td>1378410</td>
+            <td>69.84</td>
+        </tr>
+        <tr>
+            <td>SHREECEM</td>
+            <td>28091.25</td>
+            <td>28110</td>
+            <td>28494.9</td>
+            <td>27960.6</td>
+            <td>28307.45</td>
+            <td>28352.2</td>
+            <td>28504</td>
+            <td>61.74</td>
+        </tr>
+        <tr>
+            <td>SUNPHARMA</td>
+            <td>1809.8</td>
+            <td>1810</td>
+            <td>1815.75</td>
+            <td>1783.1</td>
+            <td>1793.95</td>
+            <td>1789.05</td>
+            <td>1140885</td>
+            <td>70.94</td>
+        </tr>
+        <tr>
+            <td>TCS</td>
+            <td>4415.2</td>
+            <td>4410</td>
+            <td>4432.95</td>
+            <td>4318</td>
+            <td>4322.7</td>
+            <td>4328.5</td>
+            <td>2249458</td>
+            <td>69.75</td>
+        </tr>
+        <tr>
+            <td>TECHM</td>
+            <td>1775.55</td>
+            <td>1777.45</td>
+            <td>1789.15</td>
+            <td>1761</td>
+            <td>1766.45</td>
+            <td>1770.75</td>
+            <td>726513</td>
+            <td>62.58</td>
+        </tr>
+        <tr>
+            <td>TITAN</td>
+            <td>3438.2</td>
+            <td>3422.05</td>
+            <td>3449.4</td>
+            <td>3397.6</td>
+            <td>3406.5</td>
+            <td>3406.1</td>
+            <td>620824</td>
+            <td>61.74</td>
+        </tr>
+        <tr>
+            <td>TORNTPHARM</td>
+            <td>3362.05</td>
+            <td>3362.05</td>
+            <td>3399</td>
+            <td>3339.05</td>
+            <td>3385</td>
+            <td>3376.7</td>
+            <td>371677</td>
+            <td>68.01</td>
+        </tr>
+        <tr>
+            <td>TVSMOTOR</td>
+            <td>2527.9</td>
+            <td>2514</td>
+            <td>2527.9</td>
+            <td>2433.05</td>
+            <td>2441.95</td>
+            <td>2453.05</td>
+            <td>561480</td>
+            <td>60.08</td>
+        </tr>
+        <tr>
+            <td>ZYDUSLIFE</td>
+            <td>987.75</td>
+            <td>989.45</td>
+            <td>991.1</td>
+            <td>966.9</td>
+            <td>967</td>
+            <td>969.9</td>
+            <td>496549</td>
+            <td>64.49</td>
+        </tr>
+    </table>
+
+
+
+    
+</body>
+</html>

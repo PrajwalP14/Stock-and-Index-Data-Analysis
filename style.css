@@ -1,0 +1,56 @@
+/* General page styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Light blue background color */
+}
+
+/* Styling the navigation bar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333; /* Dark background for the navigation bar */
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow below the navbar */
+    z-index: 1000;
+}
+
+/* Styling the navigation buttons */
+.navbar a {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff; /* White text color */
+    background-color: #007BFF; /* Blue background color for buttons */
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover effect for buttons */
+.navbar a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05);
+}
+
+/* Active state effect for buttons */
+.navbar a:active {
+    background-color: #004080; /* Even darker blue when clicked */
+    transform: scale(0.95);
+}
+
+/* Content styling to prevent overlap */
+.content {
+    margin-top: 70px; /* Leaves space below the fixed navbar */
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #333; /* Dark gray text color */
+}

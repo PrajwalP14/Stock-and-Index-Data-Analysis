@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling on body */
+        }
+
+        /* Center Alignment for Links */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Styles */
+        nav a {
+            text-decoration: none;
+            color: white;
+            background-color: #80b8f3;
+            padding: 12px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Button Hover Effect */
+        nav a:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* TradingView Widget Container */
+        .tradingview-widget-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 100%; /* Make the widget full-width */
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Prevent the content from wrapping to the next line */
+        }
+
+        .tradingview-widget-copyright a {
+            color: #007BFF;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .tradingview-widget-copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Widget center alignment */
+        .tradingview-widget-container.center {
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                margin: 10px 0;
+            }
+
+            .tradingview-widget-container {
+                width: 90%; /* Adjust the widget width for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Delivery Data.html">Delivery Data</a>
+        <a href="FII and DII Data.html">FII & DII Data</a>
+        <a href="Heatmap.html">Heatmap</a>
+    </nav>
+
+    <!-- First TradingView Widget (Ticker Tape) -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+                <span class="blue-text">Track all markets</span>
+            </a>
+        </div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+            "symbols": [
+                { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500 Index" },
+                { "proName": "FOREXCOM:NSXUSD", "title": "US 100 Cash CFD" },
+                { "proName": "FX_IDC:EURUSD", "title": "EUR to USD" },
+                { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+                { "description": "Tesla", "proName": "NASDAQ:TSLA" },
+                { "description": "Nvidia", "proName": "NASDAQ:NVDA" },
+                { "description": "Amazon", "proName": "NASDAQ:AMZN" },
+                { "description": "Vix", "proName": "TVC:VIX" },
+                { "description": "USD/INR", "proName": "FX_IDC:USDINR" }
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "colorTheme": "light",
+            "locale": "en"
+        }
+        </script>
+    </div>
+    <h2><center><p> GLOBAL MARKET INDICES</p></center></h2>
+
+    <!-- Second TradingView Widget (Market Quotes) -->
+    <div class="tradingview-widget-container center">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+                <span class="blue-text"></span>
+            </a>
+        </div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+        {
+            "width": 1200,
+            "height": 1100,
+            "symbolsGroups": [
+                {
+                    "name": "Indices",
+                    "symbols": [
+                        { "name": "FOREXCOM:SPXUSD", "displayName": "S&P 500 Index" },
+                        { "name": "FOREXCOM:NSXUSD", "displayName": "US 100 Cash CFD" },
+                        { "name": "FOREXCOM:DJI", "displayName": "Dow Jones Industrial Average Index" },
+                        { "name": "INDEX:NKY", "displayName": "Japan 225" },
+                        { "name": "INDEX:DEU40", "displayName": "DAX Index" },
+                        { "name": "FOREXCOM:UKXGBP", "displayName": "FTSE 100 Index" },
+                        { "name": "NSE:NIFTY", "displayName": "NIFTY 50" }
+                    ]
+                },
+                {
+                    "name": "Futures",
+                    "symbols": [
+                        { "name": "CME_MINI:ES1!", "displayName": "S&P 500" },
+                        { "name": "CME:6E1!", "displayName": "Euro" },
+                        { "name": "COMEX:GC1!", "displayName": "Gold" },
+                        { "name": "NYMEX:CL1!", "displayName": "WTI Crude Oil" },
+                        { "name": "NYMEX:NG1!", "displayName": "Gas" },
+                        { "name": "CBOT:ZC1!", "displayName": "Corn" }
+                    ]
+                },
+                {
+                    "name": "Bonds",
+                    "symbols": [
+                        { "name": "CBOT:ZB1!", "displayName": "T-Bond" },
+                        { "name": "CBOT:UB1!", "displayName": "Ultra T-Bond" },
+                        { "name": "EUREX:FGBL1!", "displayName": "Euro Bund" },
+                        { "name": "EUREX:FBTP1!", "displayName": "Euro BTP" },
+                        { "name": "EUREX:FGBM1!", "displayName": "Euro BOBL" }
+                    ]
+                },
+                {
+                    "name": "Forex",
+                    "symbols": [
+                        { "name": "FX:EURUSD", "displayName": "EUR to USD" },
+                        { "name": "FX:GBPUSD", "displayName": "GBP to USD" },
+                        { "name": "FX:USDJPY", "displayName": "USD to JPY" },
+                        { "name": "FX:USDCHF", "displayName": "USD to CHF" },
+                        { "name": "FX:AUDUSD", "displayName": "AUD to USD" }
+                    ]
+                }
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": false,
+            "colorTheme": "light",
+            "locale": "en",
+            "backgroundColor": "#ffffff"
+        }
+        </script>
+    </div>
+</body>
+</html>
