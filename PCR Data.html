@@ -1,201 +1,423 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="70">
+  <meta http-equiv="refresh" content="60">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PCR Data — Embedded Google Sheet</title>
+  <title>PCR Data</title>
 
   <style>
-     nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
     :root{
-      --bg: #dff6ff;        /* sky light blue background */
+      --sky: #dff6ff;          /* sky light blue */
+      --sky-2: #e6f9ff;
       --card: #ffffff;
       --accent: #0d84b6;
       --header: #05607f;
-      --muted: #235a66;
-      --shadow: 0 10px 30px rgba(13,132,182,0.08);
-      --radius: 14px;
+      --muted: #234b56;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(5,96,127,0.08);
+      --green: #1e9b5a;
+      --red: #d9534f;
     }
 
-    /* Reset-ish */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased}
     body{
-      background: linear-gradient(180deg,var(--bg), #e6f9ff 70%);
-      display:flex;
-      align-items:stretch;
-      justify-content:center;
-      padding:28px;
+      margin:0;
+      min-height:100vh;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,var(--sky), var(--sky-2) 70%);
       color: #03313b;
+      -webkit-font-smoothing:antialiased;
     }
 
+    /* top nav (keeps same links as your existing page) */
+    nav{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      padding:18px;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 6px 18px rgba(3,49,59,0.05);
+      position: sticky;
+      top:0;
+      z-index: 20;
+    }
+    nav a{
+      text-decoration:none;
+      color:white;
+      background: var(--header);
+      padding:10px 16px;
+      border-radius:22px;
+      font-weight:700;
+      transition: transform .14s ease, background .14s ease;
+    }
+    nav a:hover{ transform: translateY(-3px); background:#034b5e; }
+
+    /* main container */
     .wrap{
-      width:100%;
+      width: 94%;
       max-width:1200px;
+      margin: 26px auto 60px;
       display:flex;
       flex-direction:column;
-      gap:18px;
-    }
-
-    header.card{
-      background:var(--card);
-      border-radius: var(--radius);
-      padding:18px 20px;
-      box-shadow:var(--shadow);
-      display:flex;
-      align-items:center;
       gap:16px;
     }
 
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .header-row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:8px;
+    }
     .title {
       font-size:20px;
-      font-weight:700;
+      margin:0;
       color:var(--header);
-      margin:0;
+      font-weight:800;
     }
-    .subtitle {
-      font-size:13px;
-      color:var(--muted);
-      margin:0;
-      opacity:0.95;
-    }
+    .subtitle { color:var(--muted); font-size:13px; margin:0; }
 
     .controls {
       margin-left:auto;
       display:flex;
-      gap:10px;
+      gap:8px;
       align-items:center;
-      flex-wrap:wrap;
     }
-
     .btn {
       background:var(--header);
       color:white;
-      border:none;
       padding:8px 12px;
       border-radius:10px;
-      font-weight:600;
+      border:none;
       cursor:pointer;
-      box-shadow:0 4px 10px rgba(5,96,127,0.12);
+      font-weight:700;
     }
-
-    .btn.secondary{
-      background:transparent;
+    .btn.ghost{
+      background: transparent;
       color:var(--header);
       border:1px solid rgba(5,96,127,0.12);
-      font-weight:600;
+    }
+    .small {
+      font-size:13px;
+      color:var(--muted);
     }
 
-    /* Card that contains iframe */
-    .sheet-card{
-      background:var(--card);
-      border-radius:12px;
-      padding:12px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height:420px;
-    }
-
-    /* Responsive iframe container keeps aspect and allows fullscreen */
+    /* iframe card */
     .iframe-wrap{
       position:relative;
       width:100%;
-      height:70vh; /* default height - will scale with viewport */
+      height:64vh;
       min-height:420px;
       border-radius:10px;
       overflow:hidden;
+      border:1px solid rgba(5,96,127,0.06);
       background: linear-gradient(180deg, rgba(13,132,182,0.02), rgba(13,132,182,0.01));
-      border: 1px solid rgba(13,132,182,0.06);
     }
-
     iframe{
-      position:absolute;
-      inset:0;
       width:100%;
       height:100%;
       border:0;
       display:block;
     }
 
-    .note {
-      font-size:13px;
-      color:var(--muted);
-      margin-top:10px;
-      text-align:right;
+    /* content below: filter, export, table */
+    .tools {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    input[type="search"]{
+      padding:9px 12px;
+      border-radius:10px;
+      border:1px solid #d7eef6;
+      min-width:200px;
+      font-size:14px;
+    }
+    .toggle {
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
     }
 
-    /* Small screens: reduce header density and iframe height */
-    @media (max-width:720px){
-      .title { font-size:18px }
-      .subtitle { font-size:12px }
-      .iframe-wrap { height:62vh; min-height:360px }
-      header.card { padding:12px }
+    /* table styling */
+    .table-wrap{
+      overflow:auto;
+      border-radius:8px;
+      margin-top:12px;
+      border:1px solid rgba(3,49,59,0.04);
     }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+    thead th{
+      background:linear-gradient(180deg,var(--header), #074a5e);
+      color:white;
+      padding:10px 12px;
+      font-weight:800;
+      text-align:center;
+      position:sticky;
+      top:0;
+      z-index:2;
+    }
+    tbody td{
+      padding:10px 12px;
+      text-align:center;
+      border-bottom:1px solid rgba(3,49,59,0.04);
+      font-size:14px;
+    }
+    tbody tr:nth-child(even){ background: #f7fbfd; }
+    tbody tr:hover { background: rgba(5,96,127,0.04); }
+
+    /* PCR badges */
+    .badge {
+      display:inline-block;
+      padding:6px 8px;
+      border-radius:999px;
+      color:white;
+      font-weight:700;
+      font-size:12px;
+    }
+    .pcr-good { background: var(--green); }
+    .pcr-bad { background: var(--red); }
+
+    /* responsive */
+    @media (max-width:900px){
+      .iframe-wrap { height:56vh; min-height:340px; }
+      table { min-width:700px; }
+      nav{ padding:12px; gap:8px; }
+      nav a{ padding:8px 12px; font-size:14px; }
+    }
+
   </style>
 </head>
 <body>
+  <!-- same nav as your other page -->
   <nav>
-        <a href="index.html">Home</a>
-        <a href="Delivery Data.html">Delivery Data</a>
-        <a href="FII and DII Data.html">FII & DII Data</a>
-        <a href="Heatmap.html">Heatmap</a>
-         <a href="PCR Data.html">PCR Data</a>
-    </nav>
-  <div class="wrap">
-    <header class="card" role="banner">
-      <div>
-        <h1 class="title">PCR Data — Live (Google Sheets)</h1>
-        <p class="subtitle">Embedded published sheet — updates automatically from the sheet publish feed.</p>
+    <a href="index.html">Home</a>
+    <a href="Delivery Data.html">Delivery Data</a>
+    <a href="FII and DII Data.html">FII & DII Data</a>
+    <a href="Heatmap.html">Heatmap</a>
+    <a href="PCR Data.html">PCR Data</a>
+  </nav>
+
+  <main class="wrap">
+    <section class="card" aria-labelledby="pageTitle">
+      <div class="header-row">
+        <div>
+          <h1 id="pageTitle" class="title">PCR Data — Live Dashboard</h1>
+          <p class="subtitle">Embedded published sheet + optional table view. Iframe auto-refreshes every 60s.</p>
+        </div>
+
+        <div class="controls" role="toolbar" aria-label="PCR controls">
+          <div class="small">View:</div>
+          <button class="btn" id="viewIframeBtn">Iframe</button>
+          <button class="btn ghost" id="viewTableBtn">Table</button>
+          <button class="btn" id="manualRefreshBtn" title="Force iframe reload">Reload Now</button>
+        </div>
       </div>
 
-      <div class="controls" role="toolbar" aria-label="controls">
-        <!-- The iframe src below is the exact src you provided -->
-        <button class="btn" onclick="document.getElementById('sheetFrame').contentWindow.location.reload()">Reload Sheet</button>
-        <a class="btn secondary" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4iWuG-EL85-qPs66rVH8w-bG9aQzhW4HYOSmEW2anGdSjRO0WZTZS4WuiJWLUDLUmI2ZD5-6Xow3P/pubhtml?gid=496137083&amp;single=true&amp;widget=true&amp;headers=false" target="_blank" rel="noopener">Open in new tab</a>
-      </div>
-    </header>
-
-    <section class="sheet-card" aria-label="Google sheet container">
-      <div class="iframe-wrap" role="region" aria-label="Embedded Google Sheet">
-        <iframe
-          id="sheetFrame"
-          title="Published Google Sheet - PCR Data"
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4iWuG-EL85-qPs66rVH8w-bG9aQzhW4HYOSmEW2anGdSjRO0WZTZS4WuiJWLUDLUmI2ZD5-6Xow3P/pubhtml?gid=496137083&amp;single=true&amp;widget=true&amp;headers=false"
+      <!-- iframe container (uses the published URL you gave earlier) -->
+      <div id="iframeCard" class="iframe-wrap card-content">
+        <iframe id="sheetIframe"
+          title="Published PCR Sheet"
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4iWuG-EL85-qPs66rVH8w-bG9aQzhW4HYOSmEW2anGdSjRO0WZTZS4WuiJWLUDLUmI2ZD5-6Xow3P/pubhtml?gid=496137083&single=true&widget=true&headers=false"
           allowfullscreen
           loading="lazy"></iframe>
       </div>
 
-      <p class="note">Tip: changes made in the Google Sheet will appear automatically according to Google’s publish cache timing. Use the “Reload Sheet” button to manually force a refresh in this frame.</p>
-    </section>
-  </div>
+      <!-- tools and table view (hidden by default) -->
+      <div id="tableCard" class="card" style="display:none;">
+        <div class="tools">
+          <input id="searchInput" type="search" placeholder="Filter rows (contains)..." />
+          <button class="btn ghost" id="exportCsvBtn" title="Export visible table to CSV">Export CSV</button>
+          <div style="margin-left:auto" class="small">Auto-refresh table every 60s</div>
+        </div>
 
-  <!-- Optional script to let user resize iframe height with keyboard -->
+        <div class="table-wrap" id="tableWrap" aria-live="polite" style="margin-top:10px;">
+          <table id="dataTable" role="table" aria-label="PCR table">
+            <thead id="tableHead"><tr><th>Loading…</th></tr></thead>
+            <tbody id="tableBody"><tr><td class="small">Fetching data…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- optional small note -->
+    <section class="card">
+      <p class="small">Tip: use the Table view if you want to copy/export specific rows. If PCR column isn't labeled exactly "PCR", edit <code>PCR_COLUMN_NAME</code> in the script.</p>
+    </section>
+  </main>
+
   <script>
-    // Keyboard shortcuts: + / - to increase/decrease iframe height
-    (function(){
-      const wrap = document.querySelector('.iframe-wrap');
-      window.addEventListener('keydown', (e) => {
-        if (e.key === '+' || e.key === '=' ) { // increase height
-          e.preventDefault();
-          const h = Math.min(window.innerHeight * 0.95, wrap.clientHeight + 60);
-          wrap.style.height = h + 'px';
-        } else if (e.key === '-') { // decrease height
-          e.preventDefault();
-          const h = Math.max(300, wrap.clientHeight - 60);
-          wrap.style.height = h + 'px';
-        }
-      });
-    })();
+    /***************************************************************
+     * Configuration
+     *
+     * - If you want the Table view to fetch and render rows from
+     *   your published sheet, set SHEET_ID and GID below.
+     *
+     * - You already provided a published iframe URL above; iframe auto-reloads
+     *   every 60 seconds without reloading the whole page.
+     ***************************************************************/
+    const IFRAME_REFRESH_MS = 60000; // 60s
+    const TABLE_REFRESH_MS = 60000;  // 60s
+    const SHEET_ID = 'YOUR_SHEET_ID'; // <-- paste your sheet id here to enable table fetching
+    const GID = '0';                  // <-- change to your sheet gid (496137083?) if known
+    const PCR_COLUMN_NAME = 'PCR';    // change if your column header differs
+
+    // Elements
+    const iframe = document.getElementById('sheetIframe');
+    const manualRefreshBtn = document.getElementById('manualRefreshBtn');
+    const viewIframeBtn = document.getElementById('viewIframeBtn');
+    const viewTableBtn = document.getElementById('viewTableBtn');
+    const iframeCard = document.getElementById('iframeCard');
+    const tableCard = document.getElementById('tableCard');
+    const tableHead = document.getElementById('tableHead');
+    const tableBody = document.getElementById('tableBody');
+    const searchInput = document.getElementById('searchInput');
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
+
+    // Simple view toggles
+    viewIframeBtn.addEventListener('click', () => { iframeCard.style.display='block'; tableCard.style.display='none'; });
+    viewTableBtn.addEventListener('click', () => { iframeCard.style.display='none'; tableCard.style.display='block'; });
+
+    manualRefreshBtn.addEventListener('click', () => {
+      // force reload iframe
+      try {
+        iframe.contentWindow.location.reload();
+      } catch(e) {
+        // fallback: reset src
+        const src = iframe.src;
+        iframe.src = src;
+      }
+    });
+
+    // auto-reload iframe every 60s (only reloads the frame, not the whole page)
+    setInterval(() => {
+      try { iframe.contentWindow.location.reload(); } catch (e) { iframe.src = iframe.src; }
+    }, IFRAME_REFRESH_MS);
+
+    /*******************************
+     * Table view: fetch using gviz
+     * - You MUST set SHEET_ID and (optionally) GID above.
+     * - If you prefer CSV publish, we can switch to that.
+     *******************************/
+    let lastRows = [];
+    async function loadSheetToTable() {
+      if (!SHEET_ID || SHEET_ID === 'YOUR_SHEET_ID') {
+        tableHead.innerHTML = '<tr><th>Enable Table</th></tr>';
+        tableBody.innerHTML = '<tr><td class="small">Paste your SHEET_ID in the script to enable the Table view (or use the embedded iframe).</td></tr>';
+        return;
+      }
+      tableBody.innerHTML = '<tr><td class="small">Loading…</td></tr>';
+
+      const gvizUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${GID}`;
+      try {
+        const res = await fetch(gvizUrl, {cache:'no-cache'});
+        const txt = await res.text();
+        // parse gviz wrapper
+        const jsonTextStart = txt.indexOf('{');
+        const jsonTextEnd = txt.lastIndexOf('}');
+        const jsonStr = txt.slice(jsonTextStart, jsonTextEnd + 1);
+        const data = JSON.parse(jsonStr);
+        const table = data.table;
+        const cols = table.cols.map(c => c.label || c.id || '');
+        const rows = table.rows.map(r => r.c.map(cell => (cell && (cell.v !== null && cell.v !== undefined)) ? String(cell.v) : ''));
+
+        lastRows = rows.slice(); // cache for filtering/export
+        renderTable(cols, rows);
+      } catch (err) {
+        tableHead.innerHTML = '<tr><th>Error</th></tr>';
+        tableBody.innerHTML = `<tr><td class="small">Could not load sheet. Check SHEET_ID, GID and that the sheet is published/public. (${err.message})</td></tr>`;
+      }
+    }
+
+    function renderTable(cols, rows) {
+      // render header
+      tableHead.innerHTML = '<tr>' + cols.map(c => `<th>${escapeHtml(c)}</th>`).join('') + '</tr>';
+
+      // apply search filter
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const filtered = q ? rows.filter(r => r.join(' ').toLowerCase().includes(q)) : rows;
+
+      if (!filtered.length) {
+        tableBody.innerHTML = `<tr><td class="small" colspan="${cols.length}">No rows match.</td></tr>`;
+        return;
+      }
+
+      // find PCR column index
+      const pcrIdx = cols.findIndex(c => c.trim().toLowerCase() === PCR_COLUMN_NAME.trim().toLowerCase());
+
+      tableBody.innerHTML = filtered.map(row => {
+        const cells = cols.map((col, i) => {
+          const val = row[i] !== undefined ? row[i] : '';
+          // if this is the PCR column, add a badge
+          if (i === pcrIdx && val !== '') {
+            // try parse float
+            const num = parseFloat(String(val).replace(/,/g, ''));
+            if (!isNaN(num)) {
+              const cls = num > 1 ? 'pcr-bad' : 'pcr-good';
+              return `<td><span class="badge ${cls}">${escapeHtml(val)}</span></td>`;
+            }
+          }
+          return `<td>${escapeHtml(val)}</td>`;
+        });
+        return `<tr>${cells.join('')}</tr>`;
+      }).join('');
+    }
+
+    // simple csv exporter of currently visible rows (uses lastRows and search)
+    function downloadCsv() {
+      const headerCells = Array.from(document.querySelectorAll('#tableHead th')).map(th => th.textContent.trim());
+      if (!headerCells.length) { alert('No table to export'); return; }
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const filtered = q ? lastRows.filter(r => r.join(' ').toLowerCase().includes(q)) : lastRows;
+      const rows = [headerCells].concat(filtered);
+      const csv = rows.map(r => r.map(cell => `"${String(cell||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pcr-data-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(s){ if (s==null) return ''; return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[ch]); }
+
+    // wire search/export
+    searchInput.addEventListener('input', () => {
+      // re-render without re-fetch for snappy UX
+      const thead = Array.from(document.querySelectorAll('#tableHead th')).map(th => th.textContent);
+      if (thead.length && lastRows.length) {
+        renderTable(thead, lastRows);
+      }
+    });
+    exportCsvBtn.addEventListener('click', downloadCsv);
+
+    // initial table load + interval
+    loadSheetToTable();
+    setInterval(loadSheetToTable, TABLE_REFRESH_MS);
+
+    // When user lands, default to iframe view
+    iframeCard.style.display='block';
+    tableCard.style.display='none';
+
   </script>
 </body>
 </html>
