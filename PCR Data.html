@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCR Data — Embedded Google Sheet</title>
+
+  <style>
+    :root{
+      --bg: #dff6ff;        /* sky light blue background */
+      --card: #ffffff;
+      --accent: #0d84b6;
+      --header: #05607f;
+      --muted: #235a66;
+      --shadow: 0 10px 30px rgba(13,132,182,0.08);
+      --radius: 14px;
+    }
+
+    /* Reset-ish */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased}
+    body{
+      background: linear-gradient(180deg,var(--bg), #e6f9ff 70%);
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding:28px;
+      color: #03313b;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1200px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    header.card{
+      background:var(--card);
+      border-radius: var(--radius);
+      padding:18px 20px;
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .title {
+      font-size:20px;
+      font-weight:700;
+      color:var(--header);
+      margin:0;
+    }
+    .subtitle {
+      font-size:13px;
+      color:var(--muted);
+      margin:0;
+      opacity:0.95;
+    }
+
+    .controls {
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn {
+      background:var(--header);
+      color:white;
+      border:none;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 4px 10px rgba(5,96,127,0.12);
+    }
+
+    .btn.secondary{
+      background:transparent;
+      color:var(--header);
+      border:1px solid rgba(5,96,127,0.12);
+      font-weight:600;
+    }
+
+    /* Card that contains iframe */
+    .sheet-card{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height:420px;
+    }
+
+    /* Responsive iframe container keeps aspect and allows fullscreen */
+    .iframe-wrap{
+      position:relative;
+      width:100%;
+      height:70vh; /* default height - will scale with viewport */
+      min-height:420px;
+      border-radius:10px;
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(13,132,182,0.02), rgba(13,132,182,0.01));
+      border: 1px solid rgba(13,132,182,0.06);
+    }
+
+    iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    .note {
+      font-size:13px;
+      color:var(--muted);
+      margin-top:10px;
+      text-align:right;
+    }
+
+    /* Small screens: reduce header density and iframe height */
+    @media (max-width:720px){
+      .title { font-size:18px }
+      .subtitle { font-size:12px }
+      .iframe-wrap { height:62vh; min-height:360px }
+      header.card { padding:12px }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="card" role="banner">
+      <div>
+        <h1 class="title">PCR Data — Live (Google Sheets)</h1>
+        <p class="subtitle">Embedded published sheet — updates automatically from the sheet publish feed.</p>
+      </div>
+
+      <div class="controls" role="toolbar" aria-label="controls">
+        <!-- The iframe src below is the exact src you provided -->
+        <button class="btn" onclick="document.getElementById('sheetFrame').contentWindow.location.reload()">Reload Sheet</button>
+        <a class="btn secondary" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4iWuG-EL85-qPs66rVH8w-bG9aQzhW4HYOSmEW2anGdSjRO0WZTZS4WuiJWLUDLUmI2ZD5-6Xow3P/pubhtml?gid=496137083&amp;single=true&amp;widget=true&amp;headers=false" target="_blank" rel="noopener">Open in new tab</a>
+      </div>
+    </header>
+
+    <section class="sheet-card" aria-label="Google sheet container">
+      <div class="iframe-wrap" role="region" aria-label="Embedded Google Sheet">
+        <iframe
+          id="sheetFrame"
+          title="Published Google Sheet - PCR Data"
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4iWuG-EL85-qPs66rVH8w-bG9aQzhW4HYOSmEW2anGdSjRO0WZTZS4WuiJWLUDLUmI2ZD5-6Xow3P/pubhtml?gid=496137083&amp;single=true&amp;widget=true&amp;headers=false"
+          allowfullscreen
+          loading="lazy"></iframe>
+      </div>
+
+      <p class="note">Tip: changes made in the Google Sheet will appear automatically according to Google’s publish cache timing. Use the “Reload Sheet” button to manually force a refresh in this frame.</p>
+    </section>
+  </div>
+
+  <!-- Optional script to let user resize iframe height with keyboard -->
+  <script>
+    // Keyboard shortcuts: + / - to increase/decrease iframe height
+    (function(){
+      const wrap = document.querySelector('.iframe-wrap');
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '+' || e.key === '=' ) { // increase height
+          e.preventDefault();
+          const h = Math.min(window.innerHeight * 0.95, wrap.clientHeight + 60);
+          wrap.style.height = h + 'px';
+        } else if (e.key === '-') { // decrease height
+          e.preventDefault();
+          const h = Math.max(300, wrap.clientHeight - 60);
+          wrap.style.height = h + 'px';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
